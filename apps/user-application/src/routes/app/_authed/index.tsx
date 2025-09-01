@@ -11,7 +11,7 @@ import { useClickSocket } from "@/hooks/clicks-socket";
 
 export const Route = createFileRoute("/app/_authed/")({
   component: RouteComponent,
-  loader: async ({ context }) => {
+  loader: async ({ context }) => { // This is trpc convention which is code that is executed before the component is rendered
     await Promise.all([
       context.queryClient.prefetchQuery(
         context.trpc.links.activeLinks.queryOptions(),
