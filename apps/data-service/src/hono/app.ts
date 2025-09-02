@@ -3,6 +3,7 @@ import {
 	getRoutingDestinations,
 } from "@/helpers/route-ops";
 import { cloudflareInfoSchema } from "@repo/data-ops/zod-schema/links";
+import { LinkClickMessageType } from "@repo/data-ops/zod-schema/queue";
 import { Hono } from "hono";
 
 export const App = new Hono<{ Bindings: Env }>();
@@ -21,7 +22,20 @@ App.get("/:id", async (c) => {
 	}
 
 	const headers = cfHeader.data;
-	console.log(headers);
 	const destination = getDestinationForCountry(linkInfo, headers.country);
+
+	const queueMessage: LinkClickMessageType = {
+		type: "LINK_CLICK",
+		data: {
+			id: id,
+			country: headers.country,
+			destination: destination,
+			accountId: linkInfo.accountId,
+			latitude: headers.latitude,
+			longitude: headers.longitude,
+			timestamp: new Date().toISOString(),
+		},
+	};
+	c.executionCtx.waitUntil(c.env.QUEUE.send(queueMessage)); // Send the message to the queue after redirect is complete to not block the operation
 	return c.redirect(destination);
 });
