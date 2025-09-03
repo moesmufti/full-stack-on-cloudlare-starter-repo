@@ -1,4 +1,5 @@
 import {
+	captureLinkClickInBackground,
 	getDestinationForCountry,
 	getRoutingDestinations,
 } from "@/helpers/route-ops";
@@ -7,6 +8,19 @@ import type { LinkClickMessageType } from "@repo/data-ops/zod-schema/queue";
 import { Hono } from "hono";
 
 export const App = new Hono<{ Bindings: Env }>();
+
+App.get("/click-socket", async (c) => {
+	const upgradeHeader = c.req.header("Upgrade");
+	if (!upgradeHeader || upgradeHeader !== "websocket") {
+		return c.text("Expected Upgrade: websocket", 426);
+	}
+
+	const accountId = c.req.header("account-id");
+	if (!accountId) return c.text("No Headers", 404);
+	const doId = c.env.LINK_CLICK_TRACKER_OBJECT.idFromName(accountId);
+	const stub = c.env.LINK_CLICK_TRACKER_OBJECT.get(doId);
+	return await stub.fetch(c.req.raw);
+});
 
 App.get("/:id", async (c) => {
 	const id = c.req.param("id");
@@ -36,6 +50,6 @@ App.get("/:id", async (c) => {
 			timestamp: new Date().toISOString(),
 		},
 	};
-	c.executionCtx.waitUntil(c.env.QUEUE.send(queueMessage)); // Send the message to the queue after redirect is complete to not block the operation
+	c.executionCtx.waitUntil(captureLinkClickInBackground(c.env, queueMessage)); // Send the message to the queue after redirect is complete to not block the operation
 	return c.redirect(destination);
 });
