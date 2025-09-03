@@ -61,5 +61,19 @@
 			"name": "destination-evaluation-workflow", // name it will have in CF dash
 			"class_name": "DestinationEvaluationWorkflow" // Whatever is exported in index.ts
 		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "EVALUATION_SCHEDULER",
+				"class_name": "EvaluationScheduler"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_classes": ["EvaluationScheduler"]
+		}
 	]
 }

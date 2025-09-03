@@ -3,7 +3,7 @@ import {
 	getRoutingDestinations,
 } from "@/helpers/route-ops";
 import { cloudflareInfoSchema } from "@repo/data-ops/zod-schema/links";
-import { LinkClickMessageType } from "@repo/data-ops/zod-schema/queue";
+import type { LinkClickMessageType } from "@repo/data-ops/zod-schema/queue";
 import { Hono } from "hono";
 
 export const App = new Hono<{ Bindings: Env }>();
