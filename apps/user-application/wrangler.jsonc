@@ -30,6 +30,20 @@
 					"experimental_remote": true
 				}
 			]
+		},
+		"production": {
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_id": "c5b9b3bb-2b75-4744-9ae1-4af2e3e2d76f",
+				}
+			],
+			"services": [
+				{
+					"binding": "BACKEND_SERVICE",
+					"service": "data-service-production",
+				}
+			]
 		}
 	}
 }

@@ -86,6 +86,79 @@
 					"new_sqlite_classes": ["LinkClickTracker"]
 				}
 			]
+		},
+		"production": {
+			"browser": {
+				"binding": "VIRTUAL_BROWSER"
+			},
+			"ai": {
+				"binding": "AI"
+			},
+			"r2_buckets": [
+				{
+					"binding": "BUCKET",
+					"bucket_name": "smart-links-eval-production"
+				}
+			],
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_id": "c5b9b3bb-2b75-4744-9ae1-4af2e3e2d76f",
+				}
+			],
+			"kv_namespaces": [
+				{
+					"binding": "CACHE",
+					"id": "5f6d39eee9d04c83a1f55aba8a2b4512",
+				}
+			],
+			"queues": {
+				"consumers": [
+					{
+						"queue": "smart-links-data-queue-production",
+						"dead_letter_queue": "smart-links-data-dead-letter-production"
+					},
+					{
+						"queue": "smart-links-data-dead-letter-production",
+						"retry_delay": 0
+					}
+				],
+				"producers": [
+					{
+						"binding": "QUEUE",
+						"queue": "smart-links-data-queue-production"
+					}
+				]
+			},
+			"workflows": [
+				{
+					"binding": "DESTINATION_EVALUATION_WORKFLOW",
+					"name": "destination-evaluation-workflow-production", // name it will have in CF dash
+					"class_name": "DestinationEvaluationWorkflow" // Whatever is exported in index.ts
+				}
+			],
+			"durable_objects": {
+				"bindings": [
+					{
+						"class_name": "LinkClickTracker",
+						"name": "LINK_CLICK_TRACKER_OBJECT"
+					},
+					{
+						"name": "EVALUATION_SCHEDULER",
+						"class_name": "EvaluationScheduler"
+					}
+				]
+			},
+			"migrations": [
+				{
+					"tag": "v1",
+					"new_classes": ["EvaluationScheduler"]
+				},
+				{
+					"tag": "v2",
+					"new_sqlite_classes": ["LinkClickTracker"]
+				}
+			]
 		}
 	}
 }
