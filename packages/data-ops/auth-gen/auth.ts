@@ -7,4 +7,4 @@ export const auth: ReturnType<typeof createBetterAuth> = createBetterAuth(drizzl
   {
     provider: "sqlite"
   }
-))
+), "")
