@@ -18,6 +18,11 @@
 	},
 	"env": {
 		"stage": {
+			"vars": {
+				"STRIPE_PRODUCT_BASIC": "price_1S6WKPP6D19kwI6Lvdj3Iqgz",
+				"STRIPE_PRODUCT_PRO": "price_1S6WM3P6D19kwI6LxC9Salp9",
+				"STRIPE_PRODUCT_ENTERPRISE": "price_1S6WMnP6D19kwI6LIxpbXIiu"
+			},
 			"d1_databases": [
 				{
 					"binding": "DB",
@@ -37,13 +42,13 @@
 			"d1_databases": [
 				{
 					"binding": "DB",
-					"database_id": "c5b9b3bb-2b75-4744-9ae1-4af2e3e2d76f",
+					"database_id": "c5b9b3bb-2b75-4744-9ae1-4af2e3e2d76f"
 				}
 			],
 			"services": [
 				{
 					"binding": "BACKEND_SERVICE",
-					"service": "data-service-production",
+					"service": "data-service-production"
 				}
 			]
 		}
