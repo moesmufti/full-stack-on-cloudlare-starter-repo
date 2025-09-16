@@ -290,7 +290,7 @@ importers:
         specifier: ^5.1.5
         version: 5.1.5
       stripe:
-        specifier: ^18.4.0
+        specifier: 18.4.0
         version: 18.4.0(@types/node@22.15.33)
       uuid:
         specifier: ^11.1.0
